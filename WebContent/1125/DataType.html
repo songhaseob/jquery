@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/public.css">
+<script  src="../js/jquery-3.5.1.min.js"></script>
+<style>
+</style>
+<script>
+$(function(){
+	$('#txt').on('click',function(){
+		
+		$.ajax({
+			url : 'text.jsp',
+			type : 'get',
+			dataType : 'text',
+			error : function(xhr){
+				alert('상태 : ' + xhr.status);
+				// 200 : jsp에서 형식을 수정해야한다
+				// 500 : 이클립스의 console에서 에러 확인 후 수정
+				// 404 : 해당파일이 없습니다 - 파일의 위치나 이름을 확인
+			},
+			success : function(res){
+				//res = 홍길동,개나리,진달래,무궁화,수선화,라일락
+				res = res.split(",")
+				
+				code = "<ul>";
+				$.each(res,function(i,v){
+					code += "<li>" + res[i] + "</li>";
+				})
+				code +="</ul>"
+				$('#result1').append(code);
+			}
+		})
+	})
+	
+	$('#jarr').on('click',function(){
+		$.ajax({
+			url : 'jsonArr.jsp',
+			type : 'get',
+			dataType : 'json',
+			
+			success : function(res){
+				//res = [홍길동,개나리,진달래,수선화,목련,백일홍]
+				
+				code="<ol>";
+				$.each(res,function(i){
+					code += "<li>" + res[i] + "</li>";
+				})
+				code +="</ol>"
+				$('#result2').append(code);
+				
+			},
+				error : function(xhr){
+					alert('상태 : ' + xhr.status);
+				}
+		})
+	})
+	
+	$('#jobj').on('click',function(){
+		$.ajax({
+			url : 'jsonObj.jsp',
+			type : 'get',
+			dataType : 'json',
+			
+			success : function(res){
+				code = "이름 : " + res.name + "<br>";
+				code += "아이디 : " + res.id + "<br>";
+				code += "주소 : " + res.addr + "<br>";
+				code += "전화번호 : " + res.tel +"<br>";
+				code += "이메일 : " + res.mail + "<br>";
+				
+				$('#result3').append(code);
+				
+				
+			},
+				error : function(xhr){
+					alert('상태 : ' + xhr.status);
+				}
+		})
+	})
+	
+	$('#jobarr').on('click',function(){
+		$.ajax({
+		url : 'jsonOBArr.jsp',
+			type : 'get',
+			dataType : 'json',
+			
+			success : function(res){
+				code="";
+				$.each(res,function(i,v){
+					code += "이름 : " + v.name + "<Br>";
+					code += "아이디 : " + v.id + "<br>" ;
+					code += "주소 : " + v.addr + "<br>" ;
+					code += "전화번호 : " + v.tel +"<br>";
+					code += "이메일 : " + v.mail + "<br>" + "<hr color=red>";
+				})
+				
+				$('#result4').append(code);
+				
+				
+			},
+				error : function(xhr){
+					alert('상태 : ' + xhr.status);
+				}
+		})	
+	})
+	$('#html').on('click',function(){
+		$.ajax({
+			url : 'html.jsp',
+			type : 'get',
+			dataType : 'html',
+			
+			success : function(res){
+				
+				
+				
+				$('#result5').append(res);
+				
+				
+			},
+				error : function(xhr){
+					alert('상태 : ' + xhr.status);
+				}
+		})
+	})
+	
+})
+</script>
+</head>
+<body>
+	<div class="box">
+		<h3>제목</h3>
+		내용<br>
+				<input id="txt" type="button" value="text">
+				<input id="jarr" type="button" value="jsonArr">
+				<input id="jobj" type="button" value="jsonOBJ">
+				<input id="jobarr" type="button" value="jsonOBArr">
+				<input id="html" type="button" value="html">
+		 <br>
+				<div id="result1"></div>
+				<div id="result2"></div>
+				<div id="result3"></div>
+				<div id="result4"></div>
+				<div id="result5"></div>
+		<br>
+	</div>
+</body>
+</html>
